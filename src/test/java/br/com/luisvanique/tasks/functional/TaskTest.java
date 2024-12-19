@@ -1,25 +1,37 @@
 package br.com.luisvanique.tasks.functional;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class TaskTest {
 
-	public WebDriver acessarAplicacao() {
-		WebDriver driver = new ChromeDriver();
-		driver.navigate().to("http://localhost:8001/tasks");
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		return driver;
+	public WebDriver acessarAplicacao() throws MalformedURLException {
+	    DesiredCapabilities caps = new DesiredCapabilities();
+	    caps.setBrowserName("chrome");
+	    caps.setCapability("platformName", "LINUX");
+
+	    WebDriver driver = new RemoteWebDriver(new URL("http://192.168.100.11:4444/wd/hub"), caps);
+	    
+	    // Testando a comunicação inicial
+	    System.out.println("Conectado ao Hub!");
+	    
+	    driver.navigate().to("http://192.168.100.11:8001/tasks");
+
+	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	    return driver;
 	}
 
 	@Test
-	public void deveSalvarTarefaComSucesso() {
+	public void deveSalvarTarefaComSucesso() throws MalformedURLException{
 		LocalDate dataAtual = LocalDate.now();
 		String dia = String.valueOf(dataAtual.getDayOfMonth());
 		String mes = String.valueOf(dataAtual.getMonthValue());
@@ -52,7 +64,7 @@ public class TaskTest {
 	}
 
 	@Test
-	public void naoDeveSalvarTarefaPassada() {
+	public void naoDeveSalvarTarefaPassada() throws MalformedURLException{
 		LocalDate dataPassada = LocalDate.now().minusYears(2 /* any value > 0 */);
 		String dia = String.valueOf(dataPassada.getDayOfMonth());
 		String mes = String.valueOf(dataPassada.getMonthValue());
@@ -82,9 +94,9 @@ public class TaskTest {
 		}
 
 	}
-	
+
 	@Test
-	public void naoDeveSalvarSemDescricao() {
+	public void naoDeveSalvarSemDescricao() throws MalformedURLException{
 		LocalDate dataAtual = LocalDate.now();
 		String dia = String.valueOf(dataAtual.getDayOfMonth());
 		String mes = String.valueOf(dataAtual.getMonthValue());
@@ -111,9 +123,9 @@ public class TaskTest {
 		}
 
 	}
-	
+
 	@Test
-	public void naoDeveAdicionarSemData() {
+	public void naoDeveAdicionarSemData() throws MalformedURLException{
 		WebDriver driver = acessarAplicacao();
 		try {
 			// clicar em add todo
