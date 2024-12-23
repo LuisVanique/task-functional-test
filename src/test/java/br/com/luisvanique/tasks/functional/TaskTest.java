@@ -19,12 +19,12 @@ public class TaskTest {
 	    caps.setBrowserName("chrome");
 	    caps.setCapability("platformName", "LINUX");
 
-	    WebDriver driver = new RemoteWebDriver(new URL("http://192.168.100.11:4444/wd/hub"), caps);
+	    WebDriver driver = new RemoteWebDriver(new URL("http://192.168.100.2:4444/wd/hub"), caps);
 	    
 	    // Testando a comunicação inicial
 	    System.out.println("Conectado ao Hub!");
 	    
-	    driver.navigate().to("http://192.168.100.11:8001/tasks");
+	    driver.navigate().to("http://192.168.100.2:8001/tasks");
 
 	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	    return driver;
