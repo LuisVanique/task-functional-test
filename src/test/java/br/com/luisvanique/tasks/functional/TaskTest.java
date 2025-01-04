@@ -1,5 +1,7 @@
 package br.com.luisvanique.tasks.functional;
 
+import static org.junit.Assert.assertEquals;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -156,6 +158,42 @@ public class TaskTest {
 			String mensagem = driver.findElement(By.xpath("//*[@id=\"message\"]")).getText();
 			Assert.assertEquals("Fill the due date", mensagem);
 
+		} finally {
+			// fechar browser
+			driver.quit();
+		}
+
+	}
+	
+	@Test
+	public void deveRemoverTarefaComsucesso() throws MalformedURLException {
+		LocalDate dataAtual = LocalDate.now();
+		String dia = String.format("%02d", dataAtual.getDayOfMonth());
+	    String mes = String.format("%02d", dataAtual.getMonthValue()); 
+	    String ano = String.valueOf(dataAtual.getYear());
+
+
+		WebDriver driver = acessarAplicacao();
+
+		try {
+			//Inserir tarefa
+			// clicar em add todo
+			driver.findElement(By.id("addTodo")).click();
+
+			// escrever a descricao
+			driver.findElement(By.id("task")).sendKeys("Test Selenium past due");
+
+			// escrever a data
+			driver.findElement(By.id("dueDate")).sendKeys(dia + "/" + mes + "/" + ano);
+
+			// clicar em save
+			driver.findElement(By.id("saveButton")).click();
+			String message = driver.findElement(By.xpath("//*[@id=\"message\"]")).getText();
+			assertEquals("Success!", message);
+			
+			driver.findElement(By.xpath("//*[@id=\"todoTable\"]/tbody/tr/td[3]/a")).click();
+			message = driver.findElement(By.xpath("//*[@id=\"message\"]")).getText();
+			assertEquals("Success!", message);
 		} finally {
 			// fechar browser
 			driver.quit();
