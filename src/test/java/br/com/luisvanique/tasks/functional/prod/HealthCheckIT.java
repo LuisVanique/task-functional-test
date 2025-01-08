@@ -19,9 +19,9 @@ public class HealthCheckIT {
 		caps.setBrowserName("chrome");
 		caps.setCapability("platformName", "LINUX");
 
-		WebDriver driver = new RemoteWebDriver(new URL("http://192.168.192.1:4444/wd/hub"), caps);
+		WebDriver driver = new RemoteWebDriver(new URL("http://192.168.100.11:4444/wd/hub"), caps);
 		try {
-			driver.navigate().to("http://192.168.192.1:9999/tasks");
+			driver.navigate().to("http://192.168.100.11:9999/tasks");
 
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
