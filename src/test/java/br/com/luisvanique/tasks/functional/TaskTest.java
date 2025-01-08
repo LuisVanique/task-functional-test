@@ -12,12 +12,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TaskTest {
 	
@@ -28,12 +25,12 @@ public class TaskTest {
 	    caps.setBrowserName("chrome");
 	    caps.setCapability("platformName", "LINUX");
 
-	    driver = new RemoteWebDriver(new URL("http://192.168.192.1:4444/wd/hub"), caps);
+	    driver = new RemoteWebDriver(new URL("http://172.20.224.1:4444/wd/hub"), caps);
 	    
 	    // Testando a comunicação inicial
 	    System.out.println("Conectado ao Hub!");
 	    
-	    driver.navigate().to("http://192.168.192.1:8001/tasks");
+	    driver.navigate().to("http://172.20.224.1:8001/tasks");
 
 	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	    return driver;
